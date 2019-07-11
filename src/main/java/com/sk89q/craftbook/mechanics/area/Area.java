@@ -223,6 +223,7 @@ public class Area extends AbstractCraftBookMechanic {
                 // if we are toggling to the second area we dont clear the old area
                 if (!inactiveID.isEmpty() && !inactiveID.equals("--")) {
                     copy = CopyManager.getInstance().load(namespace, inactiveID);
+                    copy.getRegion().setWorld(BukkitAdapter.adapt(sign.getBlock().getWorld()));
                     CopyManager.getInstance().paste(copy);
                 } else {
                     CopyManager.getInstance().clear(copy);
@@ -240,6 +241,7 @@ public class Area extends AbstractCraftBookMechanic {
                 }
 
                 copy = CopyManager.getInstance().load(namespace, id);
+                copy.getRegion().setWorld(BukkitAdapter.adapt(sign.getBlock().getWorld()));
                 CopyManager.getInstance().paste(copy);
                 setToggledState(sign, true);
             }
@@ -276,6 +278,7 @@ public class Area extends AbstractCraftBookMechanic {
                 // if we are toggling to the second area we dont clear the old area
                 if (!inactiveID.isEmpty() && !inactiveID.equals("--")) {
                     copy = CopyManager.getInstance().load(namespace, inactiveID);
+                    copy.getRegion().setWorld(BukkitAdapter.adapt(sign.getBlock().getWorld()));
                     CopyManager.getInstance().paste(copy);
                 } else {
                     CopyManager.getInstance().clear(copy);
@@ -291,6 +294,7 @@ public class Area extends AbstractCraftBookMechanic {
                     CopyManager.getInstance().save(namespace, inactiveID, copy);
                 } else {
                     copy = CopyManager.getInstance().load(namespace, id);
+                    copy.getRegion().setWorld(BukkitAdapter.adapt(sign.getBlock().getWorld()));
                 }
                 CopyManager.getInstance().paste(copy);
                 setToggledState(sign, true);
