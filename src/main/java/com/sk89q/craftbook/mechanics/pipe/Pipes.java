@@ -23,6 +23,7 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dropper;
@@ -68,9 +69,9 @@ public class Pipes extends AbstractCraftBookMechanic {
         if(ProtectionUtil.shouldUseProtection()) {
             Block pistonBlock = null;
 
-            if (event.getBlock().getType() == Material.WALL_SIGN) {
+            if (Tag.WALL_SIGNS.isTagged(event.getBlock().getType())) {
                 pistonBlock = SignUtil.getBackBlock(event.getBlock());
-            } else if (event.getBlock().getType() == Material.SIGN) {
+            } else if (Tag.SIGNS.isTagged(event.getBlock().getType())) {
                 if (isPiston(event.getBlock().getRelative(BlockFace.DOWN))) {
                     pistonBlock = event.getBlock().getRelative(BlockFace.DOWN);
                 } else if (isPiston(event.getBlock().getRelative(BlockFace.UP))) {
@@ -113,11 +114,11 @@ public class Pipes extends AbstractCraftBookMechanic {
         for(BlockFace face : LocationUtil.getDirectFaces()) {
             if(face == facing || !SignUtil.isSign(block.getRelative(face)))
                 continue;
-            if(block.getRelative(face).getType() != Material.SIGN && (face == BlockFace.UP || face == BlockFace.DOWN))
+            if(!Tag.SIGNS.isTagged(block.getRelative(face).getType()) && (face == BlockFace.UP || face == BlockFace.DOWN))
                 continue;
-            else if (block.getRelative(face).getType() == Material.SIGN && face != BlockFace.UP && face != BlockFace.DOWN)
+            else if (Tag.SIGNS.isTagged(block.getRelative(face).getType()) && face != BlockFace.UP && face != BlockFace.DOWN)
                 continue;
-            if(block.getRelative(face).getType() != Material.SIGN && !SignUtil.getBackBlock(block.getRelative(face)).getLocation().equals(block.getLocation()))
+            if(!Tag.SIGNS.isTagged(block.getRelative(face).getType()) && !SignUtil.getBackBlock(block.getRelative(face)).getLocation().equals(block.getLocation()))
                 continue;
             ChangedSign sign = CraftBookBukkitUtil.toChangedSign(block.getRelative(face));
             if(sign != null && sign.getLine(1).equalsIgnoreCase("[Pipe]"))
@@ -307,7 +308,7 @@ public class Pipes extends AbstractCraftBookMechanic {
                 || ItemUtil.isStainedGlass(typeId)
                 || typeId == Material.PISTON
                 || typeId == Material.STICKY_PISTON
-                || typeId == Material.WALL_SIGN
+                || Tag.WALL_SIGNS.isTagged(typeId)
                 || typeId == Material.DROPPER
                 || typeId == Material.GLASS_PANE
                 || ItemUtil.isStainedGlassPane(typeId);

@@ -4,7 +4,6 @@ import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.craftbook.CraftBookMechanic;
 import com.sk89q.craftbook.CraftBookPlayer;
 import com.sk89q.craftbook.bukkit.commands.TopLevelCommands;
-import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
 import com.sk89q.craftbook.core.LanguageManager;
 import com.sk89q.craftbook.core.st.MechanicClock;
 import com.sk89q.craftbook.core.st.SelfTriggeringManager;
@@ -102,8 +101,7 @@ import com.sk89q.minecraft.util.commands.WrappedCommandException;
 import com.sk89q.util.yaml.YAMLFormat;
 import com.sk89q.util.yaml.YAMLProcessor;
 import com.sk89q.wepif.PermissionsResolverManager;
-import io.papermc.lib.PaperLib;
-import org.bstats.bukkit.Metrics;
+//import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -503,8 +501,6 @@ public class CraftBookPlugin extends JavaPlugin {
             Bukkit.getScheduler().runTaskTimer(this,
                     () -> getLogger().warning(ChatColor.RED + "Warning! You have no mechanics enabled, the plugin will appear to do nothing until a feature is enabled!"), 20L, 20*60*5);
         }
-
-        PaperLib.suggestPaper(this);
     }
 
     private YAMLProcessor mechanismsConfig;
@@ -719,7 +715,7 @@ public class CraftBookPlugin extends JavaPlugin {
             }, 20L);
         }
 
-        try {
+        /*try {
             logDebugMessage("Initializing Metrics!", "startup");
             Metrics metrics = new Metrics(this);
 
@@ -727,7 +723,7 @@ public class CraftBookPlugin extends JavaPlugin {
             metrics.addCustomChart(new Metrics.SimpleBarChart("enabled_mechanics", () -> mechanics.stream().collect(Collectors.toMap(mech -> mech.getClass().getSimpleName(), o -> 1))));
         } catch (Throwable e1) {
             CraftBookBukkitUtil.printStacktrace(e1);
-        }
+        }*/
     }
 
     /**

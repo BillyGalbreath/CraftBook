@@ -5,7 +5,6 @@ import com.sk89q.craftbook.mechanics.variables.VariableCommands;
 import com.sk89q.craftbook.mechanics.variables.VariableManager;
 import com.sk89q.craftbook.util.ParsingUtil;
 import com.sk89q.craftbook.util.RegexUtil;
-import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -72,7 +71,7 @@ public class ChangedSign {
 
     public Sign getSign() {
         if (this.sign == null) {
-            this.sign = (Sign) PaperLib.getBlockState(this.block, false).getState();
+            this.sign = (Sign) block.getState(false);
         }
         return sign;
     }

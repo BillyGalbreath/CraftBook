@@ -6,6 +6,7 @@ import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -84,12 +85,12 @@ public class AdvancedEntitySpawner extends AbstractIC {
         if (!chip.getInput(0)) return;
         Block left = SignUtil.getLeftBlock(CraftBookBukkitUtil.toSign(getSign()).getBlock());
         ChangedSign effectSign = null;
-        if (left.getType() == Material.WALL_SIGN)
+        if (Tag.WALL_SIGNS.isTagged(left.getType()))
             effectSign = CraftBookBukkitUtil.toChangedSign(left);
 
         Block right = SignUtil.getRightBlock(CraftBookBukkitUtil.toSign(getSign()).getBlock());
         ChangedSign armourSign = null;
-        if (right.getType() == Material.WALL_SIGN)
+        if (Tag.WALL_SIGNS.isTagged(right.getType()))
             armourSign = CraftBookBukkitUtil.toChangedSign(right);
 
         for (int i = 0; i < amount; i++) {
@@ -162,15 +163,15 @@ public class AdvancedEntitySpawner extends AbstractIC {
                     }
                 }
                 if (upwards == null) {
-                    if (CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, 1, 0).getType() == Material.WALL_SIGN) {
+                    if (Tag.WALL_SIGNS.isTagged(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, 1, 0).getType())) {
                         effectSign = CraftBookBukkitUtil.toChangedSign(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, 1, 0));
                         upwards = true;
-                    } else if (CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, -1, 0).getType() == Material.WALL_SIGN) {
+                    } else if (Tag.WALL_SIGNS.isTagged(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, -1, 0).getType())) {
                         effectSign = CraftBookBukkitUtil.toChangedSign(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, -1, 0));
                         upwards = false;
                     } else break;
                 } else {
-                    if (CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, upwards ? 1 : -1, 0).getType() == Material.WALL_SIGN)
+                    if (Tag.WALL_SIGNS.isTagged(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, upwards ? 1 : -1, 0).getType()))
                         effectSign = CraftBookBukkitUtil
                                 .toChangedSign(CraftBookBukkitUtil.toSign(effectSign).getBlock().getRelative(0, upwards ? 1 : -1, 0));
                     else break;

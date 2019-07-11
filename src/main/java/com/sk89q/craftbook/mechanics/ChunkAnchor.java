@@ -90,7 +90,7 @@ public class ChunkAnchor extends AbstractCraftBookMechanic {
 
             if (!foundSign) return;
             if (!isOn && allowRedstone) return;
-            event.setCancelled(true);
+            //event.setCancelled(true); // cant stop chunk unloads anymore
             CraftBookPlugin.inst().getServer().getScheduler().runTaskLater(CraftBookPlugin.inst(),
                     () -> event.getWorld().loadChunk(event.getChunk().getX(), event.getChunk().getZ(), true), 2L);
         } catch(Throwable t) {

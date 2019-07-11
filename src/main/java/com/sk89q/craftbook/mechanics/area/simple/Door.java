@@ -41,6 +41,7 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -253,7 +254,7 @@ public class Door extends CuboidToggleMechanic {
             // i = settings.maxLength is actually the farthest place we're
             // allowed to find the distal signpost
 
-            if (otherSide.getType() == Material.SIGN) {
+            if (Tag.WALL_SIGNS.isTagged(otherSide.getType())) {
                 String otherSignText = CraftBookBukkitUtil.toChangedSign(otherSide).getLine(1);
                 if (isApplicableSign(otherSignText))
                     break;

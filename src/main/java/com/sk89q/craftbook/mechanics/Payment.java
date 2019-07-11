@@ -1,6 +1,7 @@
 package com.sk89q.craftbook.mechanics;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class Payment extends AbstractCraftBookMechanic {
 
         if(!EventUtil.passesFilter(event)) return;
 
-        if(event.getClickedBlock().getType() != Material.WALL_SIGN) return;
+        if(!Tag.WALL_SIGNS.isTagged(event.getClickedBlock().getType())) return;
         if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ChangedSign sign = event.getSign();

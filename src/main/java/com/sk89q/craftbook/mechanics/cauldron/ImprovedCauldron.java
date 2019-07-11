@@ -18,6 +18,7 @@ import com.sk89q.worldedit.util.HandSide;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -95,7 +96,7 @@ public class ImprovedCauldron extends AbstractCraftBookMechanic {
                 boolean found = false;
                 for(BlockFace face : faces) {
                     Block sign = block.getRelative(face);
-                    if(sign.getType() == Material.WALL_SIGN) {
+                    if(Tag.WALL_SIGNS.isTagged(sign.getType())) {
                         ChangedSign s = CraftBookBukkitUtil.toChangedSign(sign);
                         if(s.getLine(1).equals("[Cauldron]")) {
                             found = true;

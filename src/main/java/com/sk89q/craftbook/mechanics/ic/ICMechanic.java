@@ -38,6 +38,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -91,7 +92,7 @@ public class ICMechanic extends AbstractCraftBookMechanic {
     public Object[] setupIC(Block block, boolean create) {
 
         // if we're not looking at a wall sign, it can't be an IC.
-        if (block.getType() != Material.WALL_SIGN) return null;
+        if (!Tag.WALL_SIGNS.isTagged(block.getType())) return null;
         ChangedSign sign = CraftBookBukkitUtil.toChangedSign(block);
 
         // detect the text on the sign to see if it's any kind of IC at all.
@@ -214,7 +215,7 @@ public class ICMechanic extends AbstractCraftBookMechanic {
         // abort if the current did not change
         if (event.getNewCurrent() == event.getOldCurrent()) return;
 
-        if (block.getType() == Material.WALL_SIGN) {
+        if (Tag.WALL_SIGNS.isTagged(block.getType())) {
             final Block source = event.getSource();
             // abort if the sign is the source or the block the sign is attached to
             if (SignUtil.getBackBlock(block).equals(source) || block.equals(source)) return;
@@ -222,7 +223,7 @@ public class ICMechanic extends AbstractCraftBookMechanic {
 
             Runnable runnable = () -> {
 
-                if (block.getType() != Material.WALL_SIGN) return;
+                if (!Tag.WALL_SIGNS.isTagged(block.getType())) return;
                 try {
                     ChipState chipState = ((ICFamily) icData[1]).detect(BukkitAdapter.adapt(source.getLocation()), CraftBookBukkitUtil.toChangedSign(block));
                     int cnt = 0;
@@ -406,7 +407,7 @@ public class ICMechanic extends AbstractCraftBookMechanic {
             } else
                 suffix = "";
 
-            if (block.getType() != Material.WALL_SIGN) {
+            if (!Tag.WALL_SIGNS.isTagged(block.getType())) {
                 player.printError("Only wall signs are used for ICs.");
                 SignUtil.cancelSign(event);
                 return;
@@ -484,7 +485,7 @@ public class ICMechanic extends AbstractCraftBookMechanic {
                 return;
             }
 
-            if (block.getType() != Material.WALL_SIGN) {
+            if (!Tag.WALL_SIGNS.isTagged(block.getType())) {
                 player.printError("Only wall signs are used for ICs.");
                 SignUtil.cancelSign(event);
                 return;

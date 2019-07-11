@@ -263,9 +263,9 @@ public final class EntityUtil {
                 if (data[0].equalsIgnoreCase("butcher")) {
                     ((Villager) ent).setProfession(Villager.Profession.BUTCHER);
                 } else if (data[0].equalsIgnoreCase("smith")) {
-                    ((Villager) ent).setProfession(Villager.Profession.BLACKSMITH);
+                    ((Villager) ent).setProfession(Villager.Profession.WEAPONSMITH);
                 } else if (data[0].equalsIgnoreCase("priest")) {
-                    ((Villager) ent).setProfession(Villager.Profession.PRIEST);
+                    ((Villager) ent).setProfession(Villager.Profession.CLERIC);
                 } else if (data[0].equalsIgnoreCase("library")) {
                     ((Villager) ent).setProfession(Villager.Profession.LIBRARIAN);
                 } else if (data[0].equalsIgnoreCase("farmer")) {

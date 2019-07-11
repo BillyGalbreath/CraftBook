@@ -262,6 +262,7 @@ public class InventoryUtil {
     public static boolean doesBlockHaveInventory(Block block) {
 
         switch(block.getType()) {
+            case BARREL:
             case CHEST:
             case TRAPPED_CHEST:
             case DROPPER:

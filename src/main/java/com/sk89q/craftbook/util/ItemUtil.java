@@ -499,7 +499,7 @@ public final class ItemUtil {
             case COBBLESTONE:
                 return new ItemStack(Material.STONE);
             case CACTUS:
-                return new ItemStack(Material.CACTUS_GREEN);
+                return new ItemStack(Material.GREEN_DYE);
             case IRON_ORE:
                 return new ItemStack(Material.IRON_INGOT);
             case COAL_ORE:
@@ -695,8 +695,7 @@ public final class ItemUtil {
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
-            case SIGN:
-            case FISHING_ROD:
+                case FISHING_ROD:
             case BOW:
             case LADDER:
                 return true;
@@ -713,7 +712,9 @@ public final class ItemUtil {
                         || Tag.WOODEN_SLABS.isTagged(item.getType())
                         || Tag.SAPLINGS.isTagged(item.getType())
                         || Tag.WOOL.isTagged(item.getType())
-                        || Tag.WOODEN_PRESSURE_PLATES.isTagged(item.getType());
+                        || Tag.WOODEN_PRESSURE_PLATES.isTagged(item.getType())
+                        || Tag.WALL_SIGNS.isTagged(item.getType())
+                        || Tag.SIGNS.isTagged(item.getType());
         }
     }
 

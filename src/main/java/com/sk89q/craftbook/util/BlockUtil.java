@@ -3,6 +3,7 @@ package com.sk89q.craftbook.util;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -72,11 +73,10 @@ public final class BlockUtil {
             case DISPENSER:
             case DROPPER:
             case HOPPER:
-            case SIGN:
             case TRAPPED_CHEST:
                 return true;
             default:
-                return false;
+                return Tag.SIGNS.isTagged(material) || Tag.WALL_SIGNS.isTagged(material);
         }
     }
 
