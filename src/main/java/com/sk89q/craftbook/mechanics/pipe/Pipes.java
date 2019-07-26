@@ -342,7 +342,7 @@ public class Pipes extends AbstractCraftBookMechanic {
             Piston p = (Piston) block.getBlockData();
             Block fac = block.getRelative(p.getFacing());
 
-            if (fac.getType() == Material.CHEST || fac.getType() == Material.TRAPPED_CHEST || fac.getType() == Material.DROPPER || fac.getType() == Material.DISPENSER || fac.getType() == Material.HOPPER) {
+            if (fac.getType() == Material.CHEST || fac.getType() == Material.TRAPPED_CHEST || fac.getType() == Material.DROPPER || fac.getType() == Material.DISPENSER || fac.getType() == Material.HOPPER || fac.getType() == Material.BARREL) {
 
                 for (ItemStack stack : ((InventoryHolder) fac.getState()).getInventory().getContents()) {
 
