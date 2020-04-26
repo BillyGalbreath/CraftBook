@@ -8,7 +8,7 @@ import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
 import com.sk89q.craftbook.mechanics.ic.ChipState;
 import com.sk89q.craftbook.mechanics.ic.IC;
 import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.pipe.PipeRequestEvent;
+import com.sk89q.craftbook.mechanics.ranged.RangedCollectEvent;
 import com.sk89q.craftbook.util.ICUtil;
 import com.sk89q.craftbook.util.InventoryUtil;
 import com.sk89q.craftbook.util.ItemSyntax;
@@ -108,7 +108,7 @@ public class RangedCollector extends AbstractSelfTriggeredIC {
         List<Item> itemsForChest = Lists.newArrayList();
 
         for (Entity entity : LocationUtil.getNearbyEntities(centre, radius)) {
-            if (entity.isValid() && entity instanceof Item) {
+            if (entity.isValid() && entity instanceof Item && ((Item) entity).getPickupDelay() < 1) {
                 ItemStack stack = ((Item) entity).getItemStack();
 
                 if(!ItemUtil.isStackValid(stack))
@@ -136,7 +136,7 @@ public class RangedCollector extends AbstractSelfTriggeredIC {
                 BlockFace back = SignUtil.getBack(CraftBookBukkitUtil.toSign(getSign()).getBlock());
                 Block pipe = getBackBlock().getRelative(back);
 
-                PipeRequestEvent event = new PipeRequestEvent(pipe, new ArrayList<>(Collections.singletonList(stack)), getBackBlock());
+                RangedCollectEvent event = new RangedCollectEvent(pipe, (Item) entity, new ArrayList<>(Collections.singletonList(stack)), getBackBlock());
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (event.isCancelled()) {

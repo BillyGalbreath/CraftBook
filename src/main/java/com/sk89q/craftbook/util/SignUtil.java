@@ -17,7 +17,7 @@
 package com.sk89q.craftbook.util;
 
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -53,8 +53,15 @@ import org.bukkit.event.block.SignChangeEvent;
 public final class SignUtil {
 
     public static boolean isSign(Block block) {
+        return isStandingSign(block) || isWallSign(block);
+    }
 
-        return block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN;
+    public static boolean isStandingSign(Block block) {
+        return Tag.STANDING_SIGNS.isTagged(block.getType());
+    }
+
+    public static boolean isWallSign(Block block) {
+        return Tag.WALL_SIGNS.isTagged(block.getType());
     }
 
     /**

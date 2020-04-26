@@ -17,12 +17,14 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -483,6 +485,8 @@ public final class ItemUtil {
                 return new ItemStack(Material.COOKED_RABBIT);
             case CHORUS_FRUIT:
                 return new ItemStack(Material.POPPED_CHORUS_FRUIT);
+            case KELP:
+                return new ItemStack(Material.DRIED_KELP);
             default:
                 return null;
         }
@@ -499,7 +503,7 @@ public final class ItemUtil {
             case COBBLESTONE:
                 return new ItemStack(Material.STONE);
             case CACTUS:
-                return new ItemStack(Material.CACTUS_GREEN);
+                return new ItemStack(Material.GREEN_DYE);
             case IRON_ORE:
                 return new ItemStack(Material.IRON_INGOT);
             case COAL_ORE:
@@ -586,6 +590,18 @@ public final class ItemUtil {
             case GOLDEN_BOOTS:
             case GOLDEN_HORSE_ARMOR:
                 return new ItemStack(Material.GOLD_NUGGET);
+            case STONE:
+                return new ItemStack(Material.SMOOTH_STONE);
+            case QUARTZ_BLOCK:
+                return new ItemStack(Material.SMOOTH_QUARTZ);
+            case SANDSTONE:
+                return new ItemStack(Material.SMOOTH_SANDSTONE);
+            case RED_SANDSTONE:
+                return new ItemStack(Material.SMOOTH_RED_SANDSTONE);
+            case CHORUS_FRUIT:
+                return new ItemStack(Material.POPPED_CHORUS_FRUIT);
+            case SEA_PICKLE:
+                return new ItemStack(Material.LIME_DYE);
             default:
                 if (Tag.LOGS.isTagged(item.getType())) {
                     return new ItemStack(Material.CHARCOAL);
@@ -658,6 +674,7 @@ public final class ItemUtil {
 
         switch(item.getType()) {
             case COAL:
+            case CHARCOAL:
             case COAL_BLOCK:
             case WOODEN_AXE:
             case WOODEN_HOE:
@@ -695,10 +712,12 @@ public final class ItemUtil {
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
-            case SIGN:
             case FISHING_ROD:
             case BOW:
             case LADDER:
+            case SCAFFOLDING:
+            case DRIED_KELP_BLOCK:
+            case BAMBOO:
                 return true;
             default:
                 return Tag.ITEMS_BOATS.isTagged(item.getType())
@@ -713,7 +732,8 @@ public final class ItemUtil {
                         || Tag.WOODEN_SLABS.isTagged(item.getType())
                         || Tag.SAPLINGS.isTagged(item.getType())
                         || Tag.WOOL.isTagged(item.getType())
-                        || Tag.WOODEN_PRESSURE_PLATES.isTagged(item.getType());
+                        || Tag.WOODEN_PRESSURE_PLATES.isTagged(item.getType())
+                        || Tag.SIGNS.isTagged(item.getType());
         }
     }
 
@@ -891,6 +911,35 @@ public final class ItemUtil {
         return items;
     }
 
+    public static boolean isArmor(Material type){
+        switch(type) {
+            case LEATHER_HELMET:
+            case LEATHER_CHESTPLATE:
+            case LEATHER_LEGGINGS:
+            case LEATHER_BOOTS:
+            case IRON_HELMET:
+            case IRON_CHESTPLATE:
+            case IRON_LEGGINGS:
+            case IRON_BOOTS:
+            case GOLDEN_HELMET:
+            case GOLDEN_CHESTPLATE:
+            case GOLDEN_LEGGINGS:
+            case GOLDEN_BOOTS:
+            case DIAMOND_HELMET:
+            case DIAMOND_CHESTPLATE:
+            case DIAMOND_LEGGINGS:
+            case DIAMOND_BOOTS:
+            case CHAINMAIL_HELMET:
+            case CHAINMAIL_CHESTPLATE:
+            case CHAINMAIL_LEGGINGS:
+            case CHAINMAIL_BOOTS:
+            case TURTLE_HELMET:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     /**
      * Returns the maximum durability that an item can have.
      * 
@@ -941,14 +990,35 @@ public final class ItemUtil {
         }
     }
 
+    private static boolean shouldDamageItem(ItemStack stack) {
+        Map<Enchantment, Integer> enchants = stack.getEnchantments();
+        int level = enchants.getOrDefault(Enchantment.DURABILITY, 0);
+
+        if (level > 0) {
+            int chance = (int) (100d / (level + 1));
+            if(isArmor(stack.getType())) {
+                chance = (int)(60d + (40d / (level + 1)));
+            }
+            int roll = CraftBookPlugin.inst().getRandom().nextInt(100);
+            return !(roll < chance);
+        }
+
+        return true;
+    }
+
     public static void damageHeldItem(Player player) {
-        ItemStack heldItem = player.getItemInHand();
-        if(heldItem != null && getMaxDurability(heldItem.getType()) > 0) {
-            heldItem.setDurability((short) (heldItem.getDurability() + 1));
-            if(heldItem.getDurability() <= getMaxDurability(heldItem.getType()))
-                player.setItemInHand(heldItem);
+        ItemStack heldItem = player.getInventory().getItemInMainHand();
+        ItemMeta meta = heldItem.getItemMeta();
+        if(meta instanceof Damageable && getMaxDurability(heldItem.getType()) > 0) {
+            if (!shouldDamageItem(heldItem)) {
+                return;
+            }
+            ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
+            heldItem.setItemMeta(meta);
+            if(((Damageable) meta).getDamage() <= getMaxDurability(heldItem.getType()))
+                player.getInventory().setItemInMainHand(heldItem);
             else
-                player.setItemInHand(null);
+                player.getInventory().setItemInMainHand(null);
         }
     }
 

@@ -3,6 +3,7 @@ package com.sk89q.craftbook.mechanics.ic.gates.world.miscellaneous;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -58,16 +59,21 @@ public class ProgrammableFireworkShow extends AbstractSelfTriggeredIC {
         return "FIREWORKS";
     }
 
-    String show;
-    FireworkShowHandler handler;
+    private String show;
+    private FireworkShowHandler handler;
 
-    boolean stopOnLow;
+    private boolean stopOnLow;
 
     @Override
     public void load() {
 
         show = getLine(2).trim();
-        handler = new FireworkShowHandler(show);
+        try {
+            handler = new FireworkShowHandler(show);
+        } catch (IOException e) {
+            CraftBookPlugin.logger().severe("Failed to load firework file for IC at " + getSign().getBlock().getLocation().toString());
+            CraftBookBukkitUtil.printStacktrace(e);
+        }
 
         String[] bits = RegexUtil.COMMA_PATTERN.split(getLine(3));
         if(bits.length > 0)
@@ -76,7 +82,9 @@ public class ProgrammableFireworkShow extends AbstractSelfTriggeredIC {
 
     @Override
     public void trigger(ChipState chip) {
-
+        if (handler == null) {
+            return;
+        }
         if (chip.getInput(0) && !handler.isShowRunning())
             handler.startShow();
         else if (handler.isShowRunning() && stopOnLow)
@@ -85,6 +93,9 @@ public class ProgrammableFireworkShow extends AbstractSelfTriggeredIC {
 
     @Override
     public void think(ChipState chip) {
+        if (handler == null) {
+            return;
+        }
         if(handler.isShowRunning() != chip.getOutput(0)) {
             chip.setOutput(0, handler.isShowRunning());
         }
@@ -137,14 +148,9 @@ public class ProgrammableFireworkShow extends AbstractSelfTriggeredIC {
 
         boolean fyrestone = false;
 
-        public FireworkShowHandler(String showName) {
-
+        public FireworkShowHandler(String showName) throws IOException {
             this.showName = showName;
-            try {
-                readShow();
-            } catch (IOException e) {
-                CraftBookBukkitUtil.printStacktrace(e);
-            }
+            readShow();
         }
 
         public void readShow() throws IOException {
@@ -155,8 +161,7 @@ public class ProgrammableFireworkShow extends AbstractSelfTriggeredIC {
                 fyrestone = true;
                 firework = new File(ICManager.inst().getFireworkFolder(), showName + ".fwk");
                 if (!firework.exists()) {
-                    CraftBookPlugin.logger().severe("Firework File Not Found! " + firework.getName());
-                    return;
+                    throw new FileNotFoundException("Firework File Not Found! " + firework.getName());
                 }
             }
             else
