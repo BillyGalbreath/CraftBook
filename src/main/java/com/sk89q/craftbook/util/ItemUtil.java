@@ -692,6 +692,7 @@ public final class ItemUtil {
             case SPRUCE_TRAPDOOR:
             case CRAFTING_TABLE:
             case CHEST:
+            case BARREL:
             case TRAPPED_CHEST:
             case JUKEBOX:
             case NOTE_BLOCK:

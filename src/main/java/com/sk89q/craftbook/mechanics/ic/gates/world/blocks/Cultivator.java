@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
@@ -83,8 +83,9 @@ public class Cultivator extends AbstractSelfTriggeredIC {
 
     public boolean damageHoe() {
 
-        if (getBackBlock().getRelative(0, 1, 0).getType() == Material.CHEST) {
-            Chest c = (Chest) getBackBlock().getRelative(0, 1, 0).getState();
+        Material type = getBackBlock().getRelative(0, 1, 0).getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
+            Container c = (Container) getBackBlock().getRelative(0, 1, 0).getState();
             for (int slot = 0; slot < c.getInventory().getSize(); slot++) {
                 if (c.getInventory().getItem(slot) == null || !hoes.contains(c.getInventory().getItem(slot).getType()))
                     continue;

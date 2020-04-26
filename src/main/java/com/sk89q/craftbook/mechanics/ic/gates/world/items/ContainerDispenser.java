@@ -11,7 +11,7 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.Inventory;
@@ -96,8 +96,9 @@ public class ContainerDispenser extends AbstractSelfTriggeredIC {
         Block bl = CraftBookBukkitUtil.toSign(getSign()).getBlock().getWorld().getBlockAt(x, y, z);
         ItemStack stack = null;
         Inventory inv = null;
-        if (bl.getType() == Material.CHEST) {
-            Chest c = (Chest) bl.getState();
+        Material type = bl.getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
+            Container c = (Container) bl.getState();
             for (ItemStack it : c.getInventory().getContents()) {
                 if (ItemUtil.isStackValid(it)) {
                     if(item == null || ItemUtil.areItemsIdentical(it, item)) {

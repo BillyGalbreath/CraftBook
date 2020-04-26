@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Locale;
@@ -60,15 +60,13 @@ public abstract class SetBlock extends AbstractSelfTriggeredIC {
 
     public boolean takeFromChest(Block bl, ItemType item) {
 
-        if (bl.getType() != Material.CHEST) {
+        Material type = bl.getType();
+        if (type != Material.CHEST && type != Material.BARREL) {
             return false;
         }
         Material material = BukkitAdapter.adapt(item);
         BlockState state = bl.getState();
-        if (!(state instanceof Chest)) {
-            return false;
-        }
-        Chest c = (Chest) state;
+        Container c = (Container) state;
         ItemStack[] is = c.getInventory().getContents();
         for (int i = 0; i < is.length; i++) {
             final ItemStack stack = is[i];

@@ -17,7 +17,7 @@ import org.bukkit.Server;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.data.type.Cocoa;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -88,9 +88,10 @@ public class Planter extends AbstractSelfTriggeredIC {
 
         if (item != null && !plantableItem(item)) return false;
 
-        if (getBackBlock().getRelative(0, 1, 0).getType() == Material.CHEST || getBackBlock().getRelative(0, 1, 0).getType() == Material.TRAPPED_CHEST) {
+        Material type = getBackBlock().getRelative(0, 1, 0).getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
 
-            Chest c = (Chest) getBackBlock().getRelative(0, 1, 0).getState();
+            Container c = (Container) getBackBlock().getRelative(0, 1, 0).getState();
             for (ItemStack it : c.getInventory().getContents()) {
 
                 if (!ItemUtil.isStackValid(it)) continue;

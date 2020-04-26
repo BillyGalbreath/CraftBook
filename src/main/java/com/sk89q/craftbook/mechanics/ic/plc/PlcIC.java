@@ -29,7 +29,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -219,8 +219,8 @@ class PlcIC<StateT, CodeT, Lang extends PlcLanguage<StateT, CodeT>> implements I
 
     private String getBookCode(Block chestBlock) throws CodeNotFoundException {
 
-        Chest c = (Chest) chestBlock.getState();
-        Inventory i = c.getBlockInventory();
+        Container c = (Container) chestBlock.getState();
+        Inventory i = c.getInventory();
         ItemStack book = null;
         for (ItemStack s : i.getContents()) {
             if (s != null && s.getAmount() > 0 && (s.getType() == Material.WRITABLE_BOOK || s.getType() == Material.WRITTEN_BOOK)) {
@@ -243,9 +243,11 @@ class PlcIC<StateT, CodeT, Lang extends PlcLanguage<StateT, CodeT>> implements I
         Sign sign = CraftBookBukkitUtil.toSign(this.sign);
 
         Block above = sign.getLocation().add(new Vector(0, 1, 0)).getBlock();
-        if (above.getType() == Material.CHEST) return getBookCode(above);
+        Material type = above.getType();
+        if (type == Material.CHEST || type == Material.BARREL) return getBookCode(above);
         Block below = sign.getLocation().add(new Vector(0, -1, 0)).getBlock();
-        if (below.getType() == Material.CHEST) return getBookCode(below);
+        type = below.getType();
+        if (type == Material.CHEST || type == Material.BARREL) return getBookCode(below);
 
         org.bukkit.Location l = sign.getLocation();
         World w = l.getWorld();

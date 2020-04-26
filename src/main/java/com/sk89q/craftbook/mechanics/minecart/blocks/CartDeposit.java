@@ -11,7 +11,7 @@ import com.sk89q.craftbook.util.RegexUtil;
 import com.sk89q.craftbook.util.Tuple2;
 import com.sk89q.util.yaml.YAMLProcessor;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.minecart.StorageMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
@@ -66,7 +66,7 @@ public class CartDeposit extends CartBlockMechanism {
         ArrayList<ItemStack> leftovers = new ArrayList<>();
 
         // search for containers
-        List<Chest> containers = new ArrayList<>(RailUtil.getNearbyChests(event.getBlocks().base));
+        List<Container> containers = new ArrayList<>(RailUtil.getNearbyChests(event.getBlocks().base));
         containers.addAll(RailUtil.getNearbyChests(event.getBlocks().rail));
 
         // are there any containers?
@@ -118,7 +118,7 @@ public class CartDeposit extends CartBlockMechanism {
             for (ItemStack stack: transferItems)
                 CraftBookPlugin.logDebugMessage("collecting " + stack.getAmount() + " items of type " + stack.getType().toString(), "cart-deposit.collect");
 
-            for (Chest container : containers) {
+            for (Container container : containers) {
                 if (transferItems.isEmpty()) {
                     break;
                 }
@@ -145,7 +145,7 @@ public class CartDeposit extends CartBlockMechanism {
             // depositing
             ArrayList<ItemStack> transferitems = new ArrayList<>();
 
-            for (Chest container : containers) {
+            for (Container container : containers) {
                 Inventory containerinventory = container.getInventory();
                 if (!items.isEmpty()) {
                     for (ItemStack item : containerinventory.getContents()) {
@@ -198,7 +198,7 @@ public class CartDeposit extends CartBlockMechanism {
 
             CraftBookPlugin.logDebugMessage("deposited, " + transferitems.size() + " items left over.", "cart-deposit.deposit");
 
-            for (Chest container : containers) {
+            for (Container container : containers) {
                 if (transferitems.isEmpty()) {
                     break;
                 }

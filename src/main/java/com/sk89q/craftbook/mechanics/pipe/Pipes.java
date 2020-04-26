@@ -346,12 +346,14 @@ public class Pipes extends AbstractCraftBookMechanic {
             Piston p = (Piston) block.getBlockData();
             Block fac = block.getRelative(p.getFacing());
 
-            if (fac.getType() == Material.CHEST
-                    || fac.getType() == Material.TRAPPED_CHEST
-                    || fac.getType() == Material.DROPPER
-                    || fac.getType() == Material.DISPENSER
-                    || fac.getType() == Material.HOPPER
-                    || Tag.SHULKER_BOXES.isTagged(fac.getType())) {
+            Material type = fac.getType();
+            if (type == Material.CHEST
+                    || type == Material.TRAPPED_CHEST
+                    || type == Material.BARREL
+                    || type == Material.DROPPER
+                    || type == Material.DISPENSER
+                    || type == Material.HOPPER
+                    || Tag.SHULKER_BOXES.isTagged(type)) {
                 for (ItemStack stack : ((InventoryHolder) fac.getState()).getInventory().getContents()) {
 
                     if (!ItemUtil.isStackValid(stack))
@@ -381,7 +383,7 @@ public class Pipes extends AbstractCraftBookMechanic {
                         leftovers.addAll(((InventoryHolder) fac.getState()).getInventory().addItem(item).values());
                     }
                 }
-            } else if (fac.getType() == Material.FURNACE || fac.getType() == Material.BLAST_FURNACE) {
+            } else if (type == Material.FURNACE || type == Material.BLAST_FURNACE) {
 
                 Furnace f = (Furnace) fac.getState();
                 if(!ItemUtil.doesItemPassFilters(f.getInventory().getResult(), filters, exceptions))
@@ -407,7 +409,7 @@ public class Pipes extends AbstractCraftBookMechanic {
                             leftovers.add(ItemUtil.addToStack(f.getInventory().getResult(), item));
                     }
                 } else f.getInventory().setResult(null);
-            } else if (fac.getType() == Material.JUKEBOX) {
+            } else if (type == Material.JUKEBOX) {
 
                 Jukebox juke = (Jukebox) fac.getState();
 

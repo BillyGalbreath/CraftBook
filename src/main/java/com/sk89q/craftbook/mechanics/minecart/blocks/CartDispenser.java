@@ -13,7 +13,7 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.minecart.ExplosiveMinecart;
@@ -102,7 +102,7 @@ public class CartDispenser extends CartBlockMechanism {
                 }
             }
         } else {
-            for (Chest c : RailUtil.getNearbyChests(blocks.base)) {
+            for (Container c : RailUtil.getNearbyChests(blocks.base)) {
                 Inventory inv = c.getInventory();
 
                 CartType type = CartType.fromString(blocks.getSign().getLine(0));

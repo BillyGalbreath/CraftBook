@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
@@ -138,9 +138,9 @@ public class AnimalHarvester extends AbstractSelfTriggeredIC {
 
     public boolean doesChestContain(Material item) {
 
-        if (chest.getType() == Material.CHEST) {
-
-            Chest c = (Chest) chest.getState();
+        Material type = chest.getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
+            Container c = (Container) chest.getState();
             return c.getInventory().contains(item);
         }
 
@@ -149,9 +149,9 @@ public class AnimalHarvester extends AbstractSelfTriggeredIC {
 
     public boolean addToChest(ItemStack item) {
 
-        if (chest.getType() == Material.CHEST) {
-
-            Chest c = (Chest) chest.getState();
+        Material type = chest.getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
+            Container c = (Container) chest.getState();
             return c.getInventory().addItem(item).isEmpty();
         }
 
@@ -160,9 +160,9 @@ public class AnimalHarvester extends AbstractSelfTriggeredIC {
 
     public boolean removeFromChest(Material item) {
 
-        if (chest.getType() == Material.CHEST) {
-
-            Chest c = (Chest) chest.getState();
+        Material type = chest.getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
+            Container c = (Container) chest.getState();
             return c.getInventory().removeItem(new ItemStack(item, 1)).isEmpty();
         }
 

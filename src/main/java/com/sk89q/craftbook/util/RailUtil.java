@@ -4,44 +4,62 @@ import com.sk89q.craftbook.mechanics.minecart.MoreRails;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class RailUtil {
 
-    public static List<Chest> getNearbyChests(Block body) {
+    public static List<Container> getNearbyChests(Block body) {
 
         int x = body.getX();
         int y = body.getY();
         int z = body.getZ();
-        List<Chest> containers = new ArrayList<>();
-        if (body.getWorld().getBlockAt(x, y, z).getType() == Material.CHEST || body.getWorld().getBlockAt(x, y, z).getType() == Material.TRAPPED_CHEST) {
-            containers.add((Chest) body.getWorld().getBlockAt(x, y, z).getState());
+        List<Container> containers = new ArrayList<>();
+        Block block = body.getWorld().getBlockAt(x, y, z);
+        Material type = block.getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+            containers.add((Container) block.getState());
         }
-        if (body.getWorld().getBlockAt(x - 1, y, z).getType() == Material.CHEST || body.getWorld().getBlockAt(x - 1, y, z).getType() == Material.TRAPPED_CHEST) {
-            containers.add((Chest) body.getWorld().getBlockAt(x - 1, y, z).getState());
-            if (body.getWorld().getBlockAt(x - 2, y, z).getType() == Material.CHEST || body.getWorld().getBlockAt(x - 2, y, z).getType() == Material.TRAPPED_CHEST) {
-                containers.add((Chest) body.getWorld().getBlockAt(x - 2, y, z).getState());
+        block = body.getWorld().getBlockAt(x - 1, y, z);
+        type = block.getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+            containers.add((Container) block.getState());
+            block = body.getWorld().getBlockAt(x - 2, y, z);
+            type = block.getType();
+            if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+                containers.add((Container) block.getState());
             }
         }
-        if (body.getWorld().getBlockAt(x + 1, y, z).getType() == Material.CHEST || body.getWorld().getBlockAt(x + 1, y, z).getType() == Material.TRAPPED_CHEST) {
-            containers.add((Chest) body.getWorld().getBlockAt(x + 1, y, z).getState());
-            if (body.getWorld().getBlockAt(x + 2, y, z).getType() == Material.CHEST || body.getWorld().getBlockAt(x + 2, y, z).getType() == Material.TRAPPED_CHEST) {
-                containers.add((Chest) body.getWorld().getBlockAt(x + 2, y, z).getState());
+        block = body.getWorld().getBlockAt(x + 1, y, z);
+        type = block.getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+            containers.add((Container) block.getState());
+            block = body.getWorld().getBlockAt(x + 2, y, z);
+            type = block.getType();
+            if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+                containers.add((Container) block.getState());
             }
         }
-        if (body.getWorld().getBlockAt(x, y, z - 1).getType() == Material.CHEST || body.getWorld().getBlockAt(x, y, z - 1).getType() == Material.TRAPPED_CHEST) {
-            containers.add((Chest) body.getWorld().getBlockAt(x, y, z - 1).getState());
-            if (body.getWorld().getBlockAt(x, y, z - 2).getType() == Material.CHEST || body.getWorld().getBlockAt(x, y, z - 2).getType() == Material.TRAPPED_CHEST) {
-                containers.add((Chest) body.getWorld().getBlockAt(x, y, z - 2).getState());
+        block = body.getWorld().getBlockAt(x, y, z - 1);
+        type = block.getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+            containers.add((Container) block.getState());
+            block = body.getWorld().getBlockAt(x, y, z - 2);
+            type = block.getType();
+            if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+                containers.add((Container) block.getState());
             }
         }
-        if (body.getWorld().getBlockAt(x, y, z + 1).getType() == Material.CHEST  || body.getWorld().getBlockAt(x, y, z + 1).getType() == Material.TRAPPED_CHEST) {
-            containers.add((Chest) body.getWorld().getBlockAt(x, y, z + 1).getState());
-            if (body.getWorld().getBlockAt(x, y, z + 2).getType() == Material.CHEST || body.getWorld().getBlockAt(x, y, z + 2).getType() == Material.TRAPPED_CHEST) {
-                containers.add((Chest) body.getWorld().getBlockAt(x, y, z + 2).getState());
+        block = body.getWorld().getBlockAt(x, y, z + 1);
+        type = block.getType();
+        if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+            containers.add((Container) block.getState());
+            block = body.getWorld().getBlockAt(x, y, z + 2);
+            type = block.getType();
+            if (type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL) {
+                containers.add((Container) block.getState());
             }
         }
 

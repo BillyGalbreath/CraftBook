@@ -14,7 +14,7 @@ import com.sk89q.craftbook.util.events.SelfTriggerUnregisterEvent.UnregisterReas
 import com.sk89q.util.yaml.YAMLProcessor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -114,10 +114,11 @@ public class CookingPot extends AbstractCraftBookMechanic {
         oldTick = lastTick;
         Block b = SignUtil.getBackBlock(event.getBlock());
         Block cb = b.getRelative(0, 2, 0);
-        if (cb.getType() == Material.CHEST) {
+        Material type = cb.getType();
+        if (type == Material.CHEST || type == Material.BARREL) {
             Block fire = b.getRelative(0, 1, 0);
             if (fire.getType() == Material.FIRE) {
-                Chest chest = (Chest) cb.getState();
+                Container chest = (Container) cb.getState();
                 Inventory inventory = chest.getInventory();
 
                 List<ItemStack> items;
@@ -191,7 +192,8 @@ public class CookingPot extends AbstractCraftBookMechanic {
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block b = SignUtil.getBackBlock(event.getClickedBlock());
             Block cb = b.getRelative(0, 2, 0);
-            if (cb.getType() == Material.CHEST) {
+            Material type = cb.getType();
+            if (type == Material.CHEST || type == Material.BARREL) {
                 Player player = event.getPlayer();
                 if(!player.hasPermission("craftbook.mech.cook.refuel")) {
                     if(CraftBookPlugin.inst().getConfiguration().showPermissionMessages)
@@ -217,7 +219,7 @@ public class CookingPot extends AbstractCraftBookMechanic {
                     p.print("mech.cook.add-fuel");
                     event.setCancelled(true);
                 } else if (cookingPotSignOpen) {
-                    player.openInventory(((Chest) cb.getState()).getBlockInventory());
+                    player.openInventory(((Container) cb.getState()).getInventory());
                     event.setCancelled(true);
                 }
             }
