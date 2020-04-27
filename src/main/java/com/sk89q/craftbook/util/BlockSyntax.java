@@ -63,7 +63,7 @@ public class BlockSyntax {
 
         if (blockState == null) {
             String[] dataSplit = RegexUtil.COLON_PATTERN.split(line.replace("\\:", ":"), 2);
-            Material material = Material.getMaterial(dataSplit[0], true);
+            Material material = Material.getMaterial(dataSplit[0], false);
             if (material != null) {
                 int data = 0;
                 if (dataSplit.length > 1) {
