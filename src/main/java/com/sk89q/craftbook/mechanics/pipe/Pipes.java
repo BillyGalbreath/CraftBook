@@ -349,10 +349,10 @@ public class Pipes extends AbstractCraftBookMechanic {
             Material type = fac.getType();
             if (type == Material.CHEST
                     || type == Material.TRAPPED_CHEST
-                    || type == Material.BARREL
                     || type == Material.DROPPER
                     || type == Material.DISPENSER
                     || type == Material.HOPPER
+                    || type == Material.BARREL
                     || Tag.SHULKER_BOXES.isTagged(type)) {
                 for (ItemStack stack : ((InventoryHolder) fac.getState()).getInventory().getContents()) {
 
@@ -383,7 +383,7 @@ public class Pipes extends AbstractCraftBookMechanic {
                         leftovers.addAll(((InventoryHolder) fac.getState()).getInventory().addItem(item).values());
                     }
                 }
-            } else if (type == Material.FURNACE || type == Material.BLAST_FURNACE) {
+            } else if (type == Material.FURNACE || type == Material.BLAST_FURNACE || type == Material.SMOKER) {
 
                 Furnace f = (Furnace) fac.getState();
                 if(!ItemUtil.doesItemPassFilters(f.getInventory().getResult(), filters, exceptions))
